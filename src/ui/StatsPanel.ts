@@ -56,8 +56,11 @@ function renderStats(): void {
       `).join('')}
     </div>
 
-    <div style="margin-top: 24px; display: flex; gap: 12px;">
+    <h3 class="section-header" style="margin-top: 24px;">Guardado</h3>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
       <button class="btn btn-secondary" id="btn-save">Guardar</button>
+      <button class="btn btn-secondary" id="btn-export">Exportar a archivo</button>
+      <button class="btn btn-secondary" id="btn-import">Importar archivo</button>
       <button class="btn btn-danger" id="btn-reset">Borrar partida</button>
     </div>
   `;
@@ -65,6 +68,14 @@ function renderStats(): void {
   document.getElementById('btn-save')?.addEventListener('click', () => {
     import('../core/SaveManager').then(m => m.saveGame());
     eventBus.emit('notification', { message: 'Partida guardada!', type: 'success' });
+  });
+
+  document.getElementById('btn-export')?.addEventListener('click', () => {
+    import('../core/SaveManager').then(m => m.exportToFile());
+  });
+
+  document.getElementById('btn-import')?.addEventListener('click', () => {
+    import('../core/SaveManager').then(m => m.importFromFile());
   });
 
   document.getElementById('btn-reset')?.addEventListener('click', () => {
