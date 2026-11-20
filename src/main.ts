@@ -9,6 +9,7 @@ import { initTabManager } from './ui/TabManager';
 import { initMinigameSelector } from './ui/MinigameSelector';
 import { initStatsPanel } from './ui/StatsPanel';
 import { initPrestigePanel } from './ui/PrestigePanel';
+import { initAutopilots } from './core/AutopilotManager';
 
 function boot(): void {
   // Load save if exists
@@ -26,6 +27,7 @@ function boot(): void {
   initMinigameSelector();
   initStatsPanel();
   initPrestigePanel();
+  initAutopilots();
 
   // Force initial render
   forceUpdateHUD();

@@ -80,6 +80,23 @@ function applyEffects(def: UpgradeDefinition): void {
           eventBus.emit('upgrade:unlocked', { id: effect.target });
         }
         break;
+      case 'unlock_autopilot':
+        if (effect.target) {
+          if (!gameState.autopilots[effect.target]) {
+            gameState.autopilots[effect.target] = { enabled: false, skillLevel: 1, speedLevel: 1 };
+          }
+        }
+        break;
+      case 'autopilot_skill':
+        if (effect.target && gameState.autopilots[effect.target]) {
+          gameState.autopilots[effect.target].skillLevel += effect.value;
+        }
+        break;
+      case 'autopilot_speed':
+        if (effect.target && gameState.autopilots[effect.target]) {
+          gameState.autopilots[effect.target].speedLevel += effect.value;
+        }
+        break;
       // mult_minigame, mult_cps, mult_click handled at reward calculation time
     }
   }

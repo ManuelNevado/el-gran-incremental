@@ -13,6 +13,8 @@ export interface GameEvents {
   'save:completed': undefined;
   'save:loaded': undefined;
   'offline:calculated': { seconds: number; earned: number };
+  'autopilot:completed': { gameId: string; score: number; reward: number };
+  'autopilot:toggled': { gameId: string; enabled: boolean };
   'tick': { dt: number; totalTime: number };
   'tab:changed': { tab: string };
   'notification': { message: string; type: 'success' | 'reward' | 'info' };

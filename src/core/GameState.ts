@@ -10,6 +10,12 @@ export interface UpgradeState {
   unlocked: boolean;
 }
 
+export interface AutopilotState {
+  enabled: boolean;
+  skillLevel: number;
+  speedLevel: number;
+}
+
 export interface GameState {
   currencies: {
     coins: number;
@@ -21,6 +27,7 @@ export interface GameState {
   };
   upgrades: Record<string, UpgradeState>;
   minigames: Record<string, MinigameStats>;
+  autopilots: Record<string, AutopilotState>;
   prestige: {
     count: number;
     totalGemsEarned: number;
@@ -39,7 +46,7 @@ export interface GameState {
   };
 }
 
-const CURRENT_VERSION = 1;
+const CURRENT_VERSION = 2;
 
 export function createDefaultState(): GameState {
   return {
@@ -52,6 +59,7 @@ export function createDefaultState(): GameState {
       clickPower: 1,
     },
     upgrades: {},
+    autopilots: {},
     minigames: {
       snake: { highScore: 0, timesPlayed: 0, totalEarned: 0, unlocked: false },
       flappy: { highScore: 0, timesPlayed: 0, totalEarned: 0, unlocked: false },
@@ -81,8 +89,9 @@ export function createDefaultState(): GameState {
 
 export function migrateState(save: Record<string, unknown>): GameState {
   const state = save as unknown as GameState;
-  // Future migrations go here:
-  // if (state.meta.version < 2) { ... }
+  if (state.meta.version < 2) {
+    state.autopilots = {};
+  }
   state.meta.version = CURRENT_VERSION;
   return state;
 }

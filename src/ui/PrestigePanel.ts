@@ -104,6 +104,9 @@ function doPrestige(gems: number): void {
     // Keep high scores and times played
   }
 
+  // Reset autopilots
+  gameState.autopilots = {};
+
   eventBus.emit('prestige:triggered', { multiplier: gameState.prestige.multiplier, gemsEarned: gems });
   eventBus.emit('notification', {
     message: `⭐ Prestigio! +${formatNumber(gems)} gemas, x${gameState.prestige.multiplier.toFixed(1)} multiplicador`,
