@@ -22,6 +22,9 @@ const SOURCE_LABELS: Record<string, string> = {
   'autopilot:dino': 'Bot Dino',
   'autopilot:crossy': 'Bot Crossy',
   'autopilot:invaders': 'Bot Invaders',
+  'activity:mining': 'Mina',
+  'activity:fishing': 'Pesca',
+  'activity:farm': 'Granja',
 };
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -40,6 +43,9 @@ const SOURCE_COLORS: Record<string, string> = {
   'autopilot:dino': '#7c3aed',
   'autopilot:crossy': '#0d9488',
   'autopilot:invaders': '#db2777',
+  'activity:mining': '#78716c',
+  'activity:fishing': '#06b6d4',
+  'activity:farm': '#84cc16',
 };
 
 // Rolling log of earnings per source

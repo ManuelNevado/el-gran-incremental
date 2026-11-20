@@ -1,4 +1,4 @@
-import { gameState } from '../core/GameState';
+import { gameState, createDefaultActivities } from '../core/GameState';
 import { eventBus } from '../core/EventBus';
 import { $ } from '../utils/dom';
 import { formatNumber } from '../utils/numbers';
@@ -106,6 +106,9 @@ function doPrestige(gems: number): void {
 
   // Reset autopilots
   gameState.autopilots = {};
+
+  // Reset activities (keep stats)
+  gameState.activities = createDefaultActivities();
 
   eventBus.emit('prestige:triggered', { multiplier: gameState.prestige.multiplier, gemsEarned: gems });
   eventBus.emit('notification', {

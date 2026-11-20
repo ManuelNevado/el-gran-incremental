@@ -12,6 +12,8 @@ import { initPrestigePanel } from './ui/PrestigePanel';
 import { initAutopilots } from './core/AutopilotManager';
 import { initIncomeTracker } from './core/IncomeTracker';
 import { initAutopilotVisuals } from './ui/AutopilotVisuals';
+import { initActivities } from './activities/ActivityManager';
+import { initActivityPanel } from './ui/ActivityPanel';
 
 function boot(): void {
   // Load save if exists
@@ -32,6 +34,8 @@ function boot(): void {
   initAutopilots();
   initIncomeTracker();
   initAutopilotVisuals();
+  initActivities();
+  initActivityPanel();
 
   // Force initial render
   forceUpdateHUD();
