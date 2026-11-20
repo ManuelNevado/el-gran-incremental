@@ -913,3 +913,44 @@ body {
   0% { opacity: 1; transform: translateY(0) scale(1); }
   100% { opacity: 0; transform: translateY(-60px) scale(0.5); }
 }
+
+/* === ACTIVITIES === */
+.activity-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.activity-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.activity-icon {
+  font-size: 1.8rem;
+}
+
+.activity-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.activity-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.activity-canvas {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  image-rendering: auto;
+}
