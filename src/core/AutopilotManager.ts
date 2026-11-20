@@ -2,6 +2,7 @@ import { gameState } from './GameState';
 import { eventBus } from './EventBus';
 import { addCoins } from './CurrencyManager';
 import { getMinigameMultiplier } from '../upgrades/UpgradeManager';
+import { formatNumber } from '../utils/numbers';
 
 export interface AutopilotConfig {
   gameId: string;
@@ -59,6 +60,26 @@ const AUTOPILOT_CONFIGS: AutopilotConfig[] = [
 
 // Timers per game
 const timers: Record<string, number> = {};
+
+// Last result per game (for mini-visualization)
+export interface AutopilotLastRun {
+  score: number;
+  reward: number;
+  timestamp: number;
+}
+const lastRuns: Record<string, AutopilotLastRun> = {};
+
+export function getAutopilotProgress(gameId: string): number {
+  const config = getAutopilotConfig(gameId);
+  if (!config) return 0;
+  const elapsed = timers[gameId] ?? 0;
+  const interval = getInterval(config);
+  return Math.min(elapsed / interval, 1);
+}
+
+export function getLastRun(gameId: string): AutopilotLastRun | undefined {
+  return lastRuns[gameId];
+}
 
 export function getAutopilotConfig(gameId: string): AutopilotConfig | undefined {
   return AUTOPILOT_CONFIGS.find(c => c.gameId === gameId);
@@ -123,10 +144,17 @@ function simulateGame(config: AutopilotConfig): void {
     addCoins(reward, `autopilot:${config.gameId}`);
   }
 
+  lastRuns[config.gameId] = { score, reward, timestamp: Date.now() };
+
   eventBus.emit('autopilot:completed', {
     gameId: config.gameId,
     score,
     reward,
+  });
+
+  eventBus.emit('notification', {
+    message: `${config.icon} ${score} pts = +${formatNumber(reward)} monedas`,
+    type: 'reward',
   });
 }
 

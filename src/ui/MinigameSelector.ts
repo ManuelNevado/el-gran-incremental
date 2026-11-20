@@ -10,6 +10,7 @@ import {
   toggleAutopilot,
   getAutopilotConfig,
 } from '../core/AutopilotManager';
+import { renderAutopilotCards } from './AutopilotVisuals';
 import { SnakeGame } from '../minigames/snake/SnakeGame';
 import { FlappyBird } from '../minigames/flappy/FlappyBird';
 import { Minesweeper } from '../minigames/minesweeper/Minesweeper';
@@ -146,4 +147,7 @@ function renderSelector(): void {
 
     container.appendChild(apGrid);
   }
+
+  // Autopilot live visuals
+  renderAutopilotCards(container);
 }

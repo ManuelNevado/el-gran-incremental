@@ -11,6 +11,7 @@ import { initStatsPanel } from './ui/StatsPanel';
 import { initPrestigePanel } from './ui/PrestigePanel';
 import { initAutopilots } from './core/AutopilotManager';
 import { initIncomeTracker } from './core/IncomeTracker';
+import { initAutopilotVisuals } from './ui/AutopilotVisuals';
 
 function boot(): void {
   // Load save if exists
@@ -30,6 +31,7 @@ function boot(): void {
   initPrestigePanel();
   initAutopilots();
   initIncomeTracker();
+  initAutopilotVisuals();
 
   // Force initial render
   forceUpdateHUD();
