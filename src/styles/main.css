@@ -302,6 +302,69 @@ body {
   color: white;
 }
 
+/* === UPGRADE CATEGORIES === */
+.upgrade-category-section {
+  margin-bottom: 20px;
+}
+
+.upgrade-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.upgrade-category-header:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-highlight);
+}
+
+.upgrade-category-header.all-maxed {
+  opacity: 0.5;
+}
+
+.upgrade-category-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.upgrade-category-icon {
+  font-size: 1.1rem;
+}
+
+.upgrade-category-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg-primary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.upgrade-category-chevron {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  transition: transform var(--transition-fast);
+}
+
+.upgrade-category-section.collapsed .upgrade-category-chevron {
+  transform: rotate(-90deg);
+}
+
+.upgrade-category-section.collapsed .upgrade-grid {
+  display: none;
+}
+
 /* === UPGRADE CARDS === */
 .upgrade-grid {
   display: grid;

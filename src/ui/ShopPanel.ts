@@ -10,7 +10,23 @@ import {
 } from '../upgrades/UpgradeManager';
 import { canAfford } from '../core/CurrencyManager';
 import { getClickPower, addCoins } from '../core/CurrencyManager';
-import type { UpgradeDefinition } from '../upgrades/types';
+import type { UpgradeCategory, UpgradeDefinition } from '../upgrades/types';
+
+interface CategoryInfo {
+  key: UpgradeCategory;
+  label: string;
+  icon: string;
+}
+
+const CATEGORIES: CategoryInfo[] = [
+  { key: 'unlock',    label: 'Desbloqueos',       icon: '🔓' },
+  { key: 'passive',   label: 'Ingreso Pasivo',    icon: '💰' },
+  { key: 'click',     label: 'Poder de Click',    icon: '👆' },
+  { key: 'global',    label: 'Multiplicadores',    icon: '📈' },
+  { key: 'minigame',  label: 'Maestria Juegos',   icon: '🎮' },
+  { key: 'autopilot', label: 'Pilotos Automaticos', icon: '🤖' },
+  { key: 'activity',  label: 'Produccion',        icon: '⛏️' },
+];
 
 export function initShopPanel(): void {
   renderShop();
@@ -29,24 +45,59 @@ function renderShop(): void {
   const workSection = container.querySelector('.work-section') ?? createWorkSection(container);
   updateWorkButton(workSection as HTMLElement);
 
-  // Upgrade grid
-  let grid = container.querySelector('.upgrade-grid') as HTMLElement | null;
-  if (!grid) {
-    const header = document.createElement('h3');
-    header.className = 'section-header';
-    header.textContent = 'Mejoras';
-    container.appendChild(header);
-
-    grid = document.createElement('div');
-    grid.className = 'upgrade-grid';
-    container.appendChild(grid);
-  }
+  // Remove old content (keep work section)
+  const oldSections = container.querySelectorAll('.upgrade-category-section');
+  oldSections.forEach(s => s.remove());
 
   const visible = getVisibleUpgrades();
-  grid.innerHTML = '';
 
+  // Group by category
+  const grouped = new Map<UpgradeCategory, UpgradeDefinition[]>();
   for (const def of visible) {
-    grid.appendChild(createUpgradeCard(def));
+    if (!grouped.has(def.category)) {
+      grouped.set(def.category, []);
+    }
+    grouped.get(def.category)!.push(def);
+  }
+
+  // Render each category that has visible upgrades
+  for (const cat of CATEGORIES) {
+    const upgrades = grouped.get(cat.key);
+    if (!upgrades || upgrades.length === 0) continue;
+
+    const section = document.createElement('div');
+    section.className = 'upgrade-category-section';
+
+    // Count stats for this category
+    const totalMaxed = upgrades.filter(d => getUpgradeLevel(d.id) >= d.maxLevel).length;
+    const allMaxed = totalMaxed === upgrades.length;
+
+    const header = document.createElement('div');
+    header.className = `upgrade-category-header${allMaxed ? ' all-maxed' : ''}`;
+    header.innerHTML = `
+      <div class="upgrade-category-title">
+        <span class="upgrade-category-icon">${cat.icon}</span>
+        <span>${cat.label}</span>
+        <span class="upgrade-category-count">${totalMaxed}/${upgrades.length}</span>
+      </div>
+      <span class="upgrade-category-chevron">▾</span>
+    `;
+
+    const grid = document.createElement('div');
+    grid.className = 'upgrade-grid';
+
+    for (const def of upgrades) {
+      grid.appendChild(createUpgradeCard(def));
+    }
+
+    // Collapse/expand
+    header.addEventListener('click', () => {
+      section.classList.toggle('collapsed');
+    });
+
+    section.appendChild(header);
+    section.appendChild(grid);
+    container.appendChild(section);
   }
 }
 
@@ -132,7 +183,6 @@ function updateAffordability(): void {
   cards.forEach(card => {
     const nameEl = card.querySelector('.upgrade-name');
     if (!nameEl) return;
-    // Find the upgrade by matching the visible upgrades
     const visible = getVisibleUpgrades();
     for (const def of visible) {
       if (nameEl.textContent?.includes(def.name)) {
