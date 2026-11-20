@@ -16,6 +16,47 @@ export interface AutopilotState {
   speedLevel: number;
 }
 
+export interface FarmPlot {
+  cropId: string | null;
+  plantedAt: number;    // timestamp ms
+  growthTime: number;   // seconds to mature
+  value: number;        // coins when harvested
+}
+
+export interface MiningState {
+  unlocked: boolean;
+  depth: number;
+  autoMiners: number;
+  autoTimer: number;
+  totalMined: number;
+}
+
+export interface FishingState {
+  unlocked: boolean;
+  rodLevel: number;
+  autoFishers: number;
+  autoTimer: number;
+  castState: 'idle' | 'waiting' | 'bite' | 'reeling';
+  castTimer: number;
+  biteWindow: number;
+  totalCaught: number;
+}
+
+export interface FarmState {
+  unlocked: boolean;
+  plots: FarmPlot[];
+  plotCount: number;
+  autoHarvest: boolean;
+  growthMultiplier: number;
+  totalHarvested: number;
+}
+
+export interface ActivitiesState {
+  mining: MiningState;
+  fishing: FishingState;
+  farm: FarmState;
+}
+
 export interface GameState {
   currencies: {
     coins: number;
@@ -28,6 +69,7 @@ export interface GameState {
   upgrades: Record<string, UpgradeState>;
   minigames: Record<string, MinigameStats>;
   autopilots: Record<string, AutopilotState>;
+  activities: ActivitiesState;
   prestige: {
     count: number;
     totalGemsEarned: number;
@@ -46,7 +88,7 @@ export interface GameState {
   };
 }
 
-const CURRENT_VERSION = 2;
+const CURRENT_VERSION = 3;
 
 export function createDefaultState(): GameState {
   return {
@@ -60,6 +102,7 @@ export function createDefaultState(): GameState {
     },
     upgrades: {},
     autopilots: {},
+    activities: createDefaultActivities(),
     minigames: {
       snake: { highScore: 0, timesPlayed: 0, totalEarned: 0, unlocked: false },
       flappy: { highScore: 0, timesPlayed: 0, totalEarned: 0, unlocked: false },
@@ -87,10 +130,43 @@ export function createDefaultState(): GameState {
   };
 }
 
+export function createDefaultActivities(): ActivitiesState {
+  return {
+    mining: {
+      unlocked: false,
+      depth: 1,
+      autoMiners: 0,
+      autoTimer: 0,
+      totalMined: 0,
+    },
+    fishing: {
+      unlocked: false,
+      rodLevel: 1,
+      autoFishers: 0,
+      autoTimer: 0,
+      castState: 'idle',
+      castTimer: 0,
+      biteWindow: 0,
+      totalCaught: 0,
+    },
+    farm: {
+      unlocked: false,
+      plots: [],
+      plotCount: 4,
+      autoHarvest: false,
+      growthMultiplier: 1,
+      totalHarvested: 0,
+    },
+  };
+}
+
 export function migrateState(save: Record<string, unknown>): GameState {
   const state = save as unknown as GameState;
   if (state.meta.version < 2) {
     state.autopilots = {};
+  }
+  if (state.meta.version < 3) {
+    state.activities = createDefaultActivities();
   }
   state.meta.version = CURRENT_VERSION;
   return state;

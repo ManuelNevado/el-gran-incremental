@@ -97,6 +97,33 @@ function applyEffects(def: UpgradeDefinition): void {
           gameState.autopilots[effect.target].speedLevel += effect.value;
         }
         break;
+      case 'unlock_activity':
+        if (effect.target && effect.target in gameState.activities) {
+          (gameState.activities as unknown as Record<string, { unlocked: boolean }>)[effect.target].unlocked = true;
+          eventBus.emit('upgrade:unlocked', { id: effect.target });
+        }
+        break;
+      case 'mining_depth':
+        gameState.activities.mining.depth += effect.value;
+        break;
+      case 'mining_auto':
+        gameState.activities.mining.autoMiners += effect.value;
+        break;
+      case 'fishing_rod':
+        gameState.activities.fishing.rodLevel += effect.value;
+        break;
+      case 'fishing_auto':
+        gameState.activities.fishing.autoFishers += effect.value;
+        break;
+      case 'farm_plots':
+        gameState.activities.farm.plotCount += effect.value;
+        break;
+      case 'farm_speed':
+        gameState.activities.farm.growthMultiplier += effect.value;
+        break;
+      case 'farm_auto':
+        gameState.activities.farm.autoHarvest = true;
+        break;
       // mult_minigame, mult_cps, mult_click handled at reward calculation time
     }
   }
