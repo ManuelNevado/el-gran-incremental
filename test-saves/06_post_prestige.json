@@ -1,0 +1,36 @@
+{
+  "currencies": {
+    "coins": 25,
+    "gems": 35
+  },
+  "passive": {
+    "coinsPerSecond": 0.1,
+    "clickPower": 1
+  },
+  "upgrades": {},
+  "autopilots": {},
+  "minigames": {
+    "snake": { "highScore": 42, "timesPlayed": 250, "totalEarned": 95000, "unlocked": false },
+    "flappy": { "highScore": 28, "timesPlayed": 180, "totalEarned": 72000, "unlocked": false },
+    "minesweeper": { "highScore": 81, "timesPlayed": 100, "totalEarned": 55000, "unlocked": false },
+    "dino": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false },
+    "crossy": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false },
+    "invaders": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false }
+  },
+  "prestige": {
+    "count": 1,
+    "totalGemsEarned": 35,
+    "multiplier": 1.1
+  },
+  "stats": {
+    "totalCoinsEarned": 0,
+    "totalClicks": 0,
+    "totalTimePlayed": 14500,
+    "startedAt": 1732100000000
+  },
+  "meta": {
+    "version": 2,
+    "lastSaved": 1732114500000,
+    "lastPlayed": 1732114500000
+  }
+}

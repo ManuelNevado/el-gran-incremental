@@ -1,0 +1,65 @@
+{
+  "currencies": {
+    "coins": 120000,
+    "gems": 0
+  },
+  "passive": {
+    "coinsPerSecond": 450.2,
+    "clickPower": 115
+  },
+  "upgrades": {
+    "desk": { "level": 10, "unlocked": true },
+    "computer": { "level": 10, "unlocked": true },
+    "server": { "level": 10, "unlocked": true },
+    "datacenter": { "level": 8, "unlocked": true },
+    "quantum": { "level": 2, "unlocked": true },
+    "gloves": { "level": 10, "unlocked": true },
+    "caffeine": { "level": 10, "unlocked": true },
+    "mechanical_kb": { "level": 8, "unlocked": true },
+    "efficiency": { "level": 8, "unlocked": true },
+    "unlock_snake": { "level": 1, "unlocked": true },
+    "unlock_flappy": { "level": 1, "unlocked": true },
+    "unlock_minesweeper": { "level": 1, "unlocked": true },
+    "snake_mastery": { "level": 5, "unlocked": true },
+    "flappy_mastery": { "level": 5, "unlocked": true },
+    "minesweeper_mastery": { "level": 5, "unlocked": true },
+    "autopilot_snake": { "level": 1, "unlocked": true },
+    "autopilot_flappy": { "level": 1, "unlocked": true },
+    "autopilot_minesweeper": { "level": 1, "unlocked": true },
+    "ap_skill_snake": { "level": 8, "unlocked": true },
+    "ap_skill_flappy": { "level": 7, "unlocked": true },
+    "ap_skill_minesweeper": { "level": 5, "unlocked": true },
+    "ap_speed_snake": { "level": 4, "unlocked": true },
+    "ap_speed_flappy": { "level": 3, "unlocked": true },
+    "ap_speed_minesweeper": { "level": 2, "unlocked": true }
+  },
+  "autopilots": {
+    "snake": { "enabled": true, "skillLevel": 9, "speedLevel": 5 },
+    "flappy": { "enabled": true, "skillLevel": 8, "speedLevel": 4 },
+    "minesweeper": { "enabled": true, "skillLevel": 6, "speedLevel": 3 }
+  },
+  "minigames": {
+    "snake": { "highScore": 42, "timesPlayed": 250, "totalEarned": 95000, "unlocked": true },
+    "flappy": { "highScore": 28, "timesPlayed": 180, "totalEarned": 72000, "unlocked": true },
+    "minesweeper": { "highScore": 81, "timesPlayed": 100, "totalEarned": 55000, "unlocked": true },
+    "dino": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false },
+    "crossy": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false },
+    "invaders": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false }
+  },
+  "prestige": {
+    "count": 0,
+    "totalGemsEarned": 0,
+    "multiplier": 1
+  },
+  "stats": {
+    "totalCoinsEarned": 1250000,
+    "totalClicks": 2500,
+    "totalTimePlayed": 14400,
+    "startedAt": 1732100000000
+  },
+  "meta": {
+    "version": 2,
+    "lastSaved": 1732114400000,
+    "lastPlayed": 1732114400000
+  }
+}
