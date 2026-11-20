@@ -8,6 +8,7 @@ import {
   setLastResult,
   type OreType, type FishType,
 } from '../activities/ActivityManager';
+import { getIncomeRates } from '../core/IncomeTracker';
 
 let isVisible = false;
 let animFrame = 0;
@@ -399,6 +400,33 @@ function renderAll(): void {
   }
 }
 
+// ===== INCOME RATE DISPLAY =====
+
+function drawIncomeRate(ctx: CanvasRenderingContext2D, source: string): void {
+  const rates = getIncomeRates();
+  const rate = rates.get(source) ?? 0;
+  if (rate < 0.01) return;
+
+  const text = `+${formatNumber(rate)}/s`;
+  ctx.font = 'bold 13px system-ui';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'top';
+
+  // Background pill
+  const metrics = ctx.measureText(text);
+  const px = CANVAS_W - 10;
+  const py = 28;
+  const pw = metrics.width + 16;
+  ctx.fillStyle = '#00000060';
+  ctx.beginPath();
+  ctx.roundRect(px - pw, py - 2, pw + 4, 20, 6);
+  ctx.fill();
+
+  // Coin icon + text
+  ctx.fillStyle = '#ffd700';
+  ctx.fillText(text, px, py);
+}
+
 // ===== RENDER: MINING =====
 
 function renderMining(ctx: CanvasRenderingContext2D): void {
@@ -487,6 +515,9 @@ function renderMining(ctx: CanvasRenderingContext2D): void {
     ctx.fillText(t.text, t.x, t.y);
     ctx.globalAlpha = 1;
   }
+
+  // Income rate
+  drawIncomeRate(ctx, 'activity:mining');
 
   // Instruction
   ctx.fillStyle = '#ffffff30';
@@ -643,6 +674,9 @@ function renderFishing(ctx: CanvasRenderingContext2D): void {
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   ctx.fillText(`Cana: Nv.${fishing.rodLevel} | Bots: ${fishing.autoFishers} | Pescados: ${fishing.totalCaught}`, 10, 10);
+
+  // Income rate
+  drawIncomeRate(ctx, 'activity:fishing');
 }
 
 // ===== RENDER: FARM =====
@@ -663,6 +697,9 @@ function renderFarm(ctx: CanvasRenderingContext2D): void {
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   ctx.fillText(`Parcelas: ${farm.plotCount} | Cosechas: ${farm.totalHarvested}${farm.autoHarvest ? ' | Auto' : ''}`, 10, 10);
+
+  // Income rate
+  drawIncomeRate(ctx, 'activity:farm');
 
   const cols = Math.min(farm.plotCount, 4);
   const plotW = 80;
