@@ -73,4 +73,6 @@ src/
 - [x] Fase 1: Core loop + Snake + Flappy Bird + Buscaminas
 - [x] Fase 2: Dino Runner + Crossy Road + Space Invaders + Autopilots + Stats
 - [ ] Fase 3: Prestigio avanzado, logros, pesca, minería
-- [ ] Fase 4: Sonidos, temas visuales, partículas
+- [ ] Fase 4: Sistema Combo/Fiebre (multiplicador activo que sube con acciones y decae idle, x1→x5) + Misiones rotativas (objetivos como "Score 15+ en Snake", "Mina 3 diamantes")
+- [ ] Fase 5: Tower Defense (mini-juego estratégico) + Bubble Shooter (mini-juego de burbujas)
+- [ ] Fase 6: Sonidos, temas visuales, partículas
