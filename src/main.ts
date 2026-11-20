@@ -10,6 +10,7 @@ import { initMinigameSelector } from './ui/MinigameSelector';
 import { initStatsPanel } from './ui/StatsPanel';
 import { initPrestigePanel } from './ui/PrestigePanel';
 import { initAutopilots } from './core/AutopilotManager';
+import { initIncomeTracker } from './core/IncomeTracker';
 
 function boot(): void {
   // Load save if exists
@@ -28,6 +29,7 @@ function boot(): void {
   initStatsPanel();
   initPrestigePanel();
   initAutopilots();
+  initIncomeTracker();
 
   // Force initial render
   forceUpdateHUD();
