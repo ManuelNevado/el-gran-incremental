@@ -9,9 +9,9 @@ Un juego incremental/idle con mini-juegos integrados. Juega mientras trabajas, d
 | 🐍 Snake | ✅ | Come y crece. Comida dorada para puntos extra |
 | 🐦 Flappy Bird | ✅ | Vuela entre los tubos sin chocar |
 | 💣 Buscaminas | ✅ | Despeja el campo sin pisar una mina |
-| 🦕 Dino Runner | 🔜 | Salta obstáculos al estilo Chrome |
-| 🐔 Crossy Road | 🔜 | Cruza carreteras y ríos |
-| 👾 Space Invaders | 🔜 | Defiende la Tierra de los aliens |
+| 🦕 Dino Runner | ✅ | Salta obstáculos al estilo Chrome |
+| 🐔 Crossy Road | ✅ | Cruza carreteras y ríos |
+| 👾 Space Invaders | ✅ | Defiende la Tierra de los aliens |
 
 ## Mecánicas
 
@@ -19,8 +19,10 @@ Un juego incremental/idle con mini-juegos integrados. Juega mientras trabajas, d
 - **Click** — Botón "Trabajar" para ganar monedas manualmente
 - **Mejoras** — Compra upgrades que aumentan tu income y potencian los mini-juegos
 - **Mini-juegos** — Desbloquéalos comprando licencias y gana monedas según tu puntuación
+- **Pilotos automáticos** — IAs que juegan por ti con habilidad configurable y visuales en vivo
 - **Prestigio** — Reinicia tu progreso a cambio de gemas y un multiplicador permanente
 - **Progreso offline** — Al volver después de un rato, recibes monedas por el tiempo fuera
+- **Estadísticas** — Gráfica de income en tiempo real desglosada por fuente
 
 ## Progresión
 
@@ -69,6 +71,6 @@ src/
 ## Roadmap
 
 - [x] Fase 1: Core loop + Snake + Flappy Bird + Buscaminas
-- [ ] Fase 2: Dino Runner + Crossy Road + Space Invaders
+- [x] Fase 2: Dino Runner + Crossy Road + Space Invaders + Autopilots + Stats
 - [ ] Fase 3: Prestigio avanzado, logros, pesca, minería
 - [ ] Fase 4: Sonidos, temas visuales, partículas
