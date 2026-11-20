@@ -3,7 +3,7 @@ import { MinigameBase } from '../MinigameBase';
 const GROUND_Y = 380;
 const GRAVITY = 1800;
 const JUMP_VELOCITY = -650;
-const DUCK_GRAVITY = 3000;
+const DUCK_GRAVITY = 6000;
 const INITIAL_SPEED = 250;
 const SPEED_INCREMENT = 0.3;
 
@@ -57,6 +57,9 @@ export class DinoRunner extends MinigameBase {
         e.preventDefault();
       }
       if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+        if (!this.isDucking && this.isJumping) {
+          this.dinoVel = Math.max(this.dinoVel, 400);
+        }
         this.isDucking = true;
         e.preventDefault();
       }

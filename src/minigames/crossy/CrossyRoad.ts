@@ -170,7 +170,6 @@ export class CrossyRoad extends MinigameBase {
             onLog = true;
             // Move with log
             this.playerCol += (lane.speed * dt) / TILE;
-            this.playerCol = Math.round(this.playerCol * 10) / 10;
             break;
           }
         }
