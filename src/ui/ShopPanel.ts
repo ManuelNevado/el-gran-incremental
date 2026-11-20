@@ -28,6 +28,8 @@ const CATEGORIES: CategoryInfo[] = [
   { key: 'activity',  label: 'Produccion',        icon: '⛏️' },
 ];
 
+const collapsedCategories = new Set<UpgradeCategory>();
+
 export function initShopPanel(): void {
   renderShop();
 
@@ -67,6 +69,7 @@ function renderShop(): void {
 
     const section = document.createElement('div');
     section.className = 'upgrade-category-section';
+    if (collapsedCategories.has(cat.key)) section.classList.add('collapsed');
 
     // Count stats for this category
     const totalMaxed = upgrades.filter(d => getUpgradeLevel(d.id) >= d.maxLevel).length;
@@ -91,8 +94,11 @@ function renderShop(): void {
     }
 
     // Collapse/expand
+    const catKey = cat.key;
     header.addEventListener('click', () => {
       section.classList.toggle('collapsed');
+      if (collapsedCategories.has(catKey)) collapsedCategories.delete(catKey);
+      else collapsedCategories.add(catKey);
     });
 
     section.appendChild(header);
