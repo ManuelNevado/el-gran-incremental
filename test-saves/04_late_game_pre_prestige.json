@@ -32,7 +32,21 @@
     "dino_mastery": { "level": 2, "unlocked": true },
     "crossy_mastery": { "level": 1, "unlocked": true },
     "autopilot_dino": { "level": 1, "unlocked": true },
-    "ap_skill_dino": { "level": 2, "unlocked": true }
+    "ap_skill_dino": { "level": 2, "unlocked": true },
+    "unlock_mining": { "level": 1, "unlocked": true },
+    "unlock_fishing": { "level": 1, "unlocked": true },
+    "unlock_farm": { "level": 1, "unlocked": true },
+    "mining_depth": { "level": 2, "unlocked": true },
+    "mining_auto": { "level": 2, "unlocked": true },
+    "fishing_rod": { "level": 1, "unlocked": true },
+    "fishing_auto": { "level": 1, "unlocked": true },
+    "farm_plots": { "level": 1, "unlocked": true },
+    "farm_speed": { "level": 1, "unlocked": true }
+  },
+  "activities": {
+    "mining": { "unlocked": true, "depth": 3, "autoMiners": 2, "autoTimer": 0, "totalMined": 150 },
+    "fishing": { "unlocked": true, "rodLevel": 2, "autoFishers": 1, "autoTimer": 0, "castState": "idle", "castTimer": 0, "biteWindow": 0, "totalCaught": 45 },
+    "farm": { "unlocked": true, "plots": [], "plotCount": 6, "autoHarvest": false, "growthMultiplier": 1.25, "totalHarvested": 30 }
   },
   "autopilots": {
     "snake": { "enabled": true, "skillLevel": 6, "speedLevel": 3 },
@@ -59,7 +73,7 @@
     "startedAt": 1732100000000
   },
   "meta": {
-    "version": 2,
+    "version": 3,
     "lastSaved": 1732107200000,
     "lastPlayed": 1732107200000
   }

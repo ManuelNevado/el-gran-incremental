@@ -46,7 +46,22 @@
     "ap_skill_invaders": { "level": 10, "unlocked": true },
     "ap_speed_dino": { "level": 5, "unlocked": true },
     "ap_speed_crossy": { "level": 5, "unlocked": true },
-    "ap_speed_invaders": { "level": 5, "unlocked": true }
+    "ap_speed_invaders": { "level": 5, "unlocked": true },
+    "unlock_mining": { "level": 1, "unlocked": true },
+    "unlock_fishing": { "level": 1, "unlocked": true },
+    "unlock_farm": { "level": 1, "unlocked": true },
+    "mining_depth": { "level": 5, "unlocked": true },
+    "mining_auto": { "level": 10, "unlocked": true },
+    "fishing_rod": { "level": 5, "unlocked": true },
+    "fishing_auto": { "level": 10, "unlocked": true },
+    "farm_plots": { "level": 6, "unlocked": true },
+    "farm_speed": { "level": 5, "unlocked": true },
+    "farm_auto": { "level": 1, "unlocked": true }
+  },
+  "activities": {
+    "mining": { "unlocked": true, "depth": 6, "autoMiners": 10, "autoTimer": 0, "totalMined": 5000 },
+    "fishing": { "unlocked": true, "rodLevel": 6, "autoFishers": 10, "autoTimer": 0, "castState": "idle", "castTimer": 0, "biteWindow": 0, "totalCaught": 2000 },
+    "farm": { "unlocked": true, "plots": [], "plotCount": 16, "autoHarvest": true, "growthMultiplier": 2.5, "totalHarvested": 1500 }
   },
   "autopilots": {
     "snake": { "enabled": true, "skillLevel": 11, "speedLevel": 6 },
@@ -76,7 +91,7 @@
     "startedAt": 1732100000000
   },
   "meta": {
-    "version": 2,
+    "version": 3,
     "lastSaved": 1732186400000,
     "lastPlayed": 1732186400000
   }
