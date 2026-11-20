@@ -14,6 +14,9 @@ import { renderAutopilotCards } from './AutopilotVisuals';
 import { SnakeGame } from '../minigames/snake/SnakeGame';
 import { FlappyBird } from '../minigames/flappy/FlappyBird';
 import { Minesweeper } from '../minigames/minesweeper/Minesweeper';
+import { DinoRunner } from '../minigames/dino/DinoRunner';
+import { CrossyRoad } from '../minigames/crossy/CrossyRoad';
+import { SpaceInvaders } from '../minigames/invaders/SpaceInvaders';
 
 interface MinigameInfo {
   id: string;
@@ -44,6 +47,27 @@ const MINIGAMES: MinigameInfo[] = [
     icon: '💣',
     description: 'Encuentra todas las minas!',
     factory: () => new Minesweeper(),
+  },
+  {
+    id: 'dino',
+    name: 'Dino Runner',
+    icon: '🦕',
+    description: 'Salta y agachate para sobrevivir!',
+    factory: () => new DinoRunner(),
+  },
+  {
+    id: 'crossy',
+    name: 'Crossy Road',
+    icon: '🐔',
+    description: 'Cruza la carretera sin morir!',
+    factory: () => new CrossyRoad(),
+  },
+  {
+    id: 'invaders',
+    name: 'Space Invaders',
+    icon: '👾',
+    description: 'Defiende la Tierra de los aliens!',
+    factory: () => new SpaceInvaders(),
   },
 ];
 

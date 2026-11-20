@@ -56,6 +56,36 @@ const AUTOPILOT_CONFIGS: AutopilotConfig[] = [
     baseRewardPerPoint: 3,
     baseInterval: 20,
   },
+  {
+    gameId: 'dino',
+    name: 'Bot Dino',
+    icon: '🤖🦕',
+    baseScoreMin: 20,
+    baseScoreMax: 60,
+    scorePerSkillLevel: 15,
+    baseRewardPerPoint: 2,
+    baseInterval: 14,
+  },
+  {
+    gameId: 'crossy',
+    name: 'Bot Crossy',
+    icon: '🤖🐔',
+    baseScoreMin: 5,
+    baseScoreMax: 15,
+    scorePerSkillLevel: 4,
+    baseRewardPerPoint: 3,
+    baseInterval: 16,
+  },
+  {
+    gameId: 'invaders',
+    name: 'Bot Invaders',
+    icon: '🤖👾',
+    baseScoreMin: 30,
+    baseScoreMax: 80,
+    scorePerSkillLevel: 20,
+    baseRewardPerPoint: 4,
+    baseInterval: 18,
+  },
 ];
 
 // Timers per game

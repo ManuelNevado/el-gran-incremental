@@ -17,10 +17,16 @@ let isVisible = false;
 interface SnakeVisual { segments: Array<{x: number; y: number}>; dir: {x: number; y: number}; food: {x: number; y: number}; timer: number }
 interface FlappyVisual { birdY: number; birdVel: number; pipes: Array<{x: number; gapY: number}>; timer: number }
 interface MineVisual { revealed: boolean[][]; timer: number; nextReveal: number }
+interface DinoVisual { y: number; vel: number; obstacles: Array<{x: number; h: number}>; timer: number; groundOff: number }
+interface CrossyVisual { row: number; col: number; cars: Array<{x: number; row: number; speed: number}>; timer: number }
+interface InvadersVisual { playerX: number; aliens: Array<{x: number; y: number; alive: boolean}>; bullets: Array<{x: number; y: number}>; timer: number; dir: number }
 
 const snakeVis: SnakeVisual = { segments: [], dir: {x:1,y:0}, food: {x:0,y:0}, timer: 0 };
 const flappyVis: FlappyVisual = { birdY: 60, birdVel: 0, pipes: [], timer: 0 };
 const mineVis: MineVisual = { revealed: [], timer: 0, nextReveal: 0 };
+const dinoVis: DinoVisual = { y: 0, vel: 0, obstacles: [], timer: 0, groundOff: 0 };
+const crossyVis: CrossyVisual = { row: 0, col: 6, cars: [], timer: 0 };
+const invadersVis: InvadersVisual = { playerX: SIZE / 2, aliens: [], bullets: [], timer: 0, dir: 1 };
 let visualsInited = false;
 
 function initVisuals(): void {
@@ -36,6 +42,32 @@ function initVisuals(): void {
 
   // Minesweeper
   mineVis.revealed = Array.from({length: 9}, () => Array.from({length: 9}, () => false));
+
+  // Dino
+  dinoVis.y = 0;
+  dinoVis.vel = 0;
+  dinoVis.obstacles = [{x: SIZE + 20, h: 15}, {x: SIZE + 80, h: 22}];
+  dinoVis.groundOff = 0;
+
+  // Crossy
+  crossyVis.row = 0;
+  crossyVis.col = 6;
+  crossyVis.cars = [
+    {x: 20, row: 2, speed: 40}, {x: 80, row: 2, speed: 40},
+    {x: 50, row: 4, speed: -35}, {x: 110, row: 4, speed: -35},
+    {x: 10, row: 6, speed: 50}, {x: 70, row: 6, speed: 50},
+  ];
+
+  // Invaders
+  invadersVis.playerX = SIZE / 2;
+  invadersVis.aliens = [];
+  invadersVis.bullets = [];
+  invadersVis.dir = 1;
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 6; c++) {
+      invadersVis.aliens.push({ x: 15 + c * 16, y: 8 + r * 14, alive: true });
+    }
+  }
 }
 
 export function initAutopilotVisuals(): void {
@@ -133,7 +165,6 @@ function updateVisuals(): void {
     if (mineVis.timer > mineVis.nextReveal) {
       mineVis.timer = 0;
       mineVis.nextReveal = 0.3 + Math.random() * 0.5;
-      // Reveal a random hidden cell
       const hidden: Array<{x: number; y: number}> = [];
       for (let y = 0; y < 9; y++) {
         for (let x = 0; x < 9; x++) {
@@ -144,9 +175,129 @@ function updateVisuals(): void {
         const cell = hidden[Math.floor(Math.random() * hidden.length)];
         mineVis.revealed[cell.y][cell.x] = true;
       }
-      // Reset when all revealed
       if (hidden.length <= 1) {
         mineVis.revealed = Array.from({length: 9}, () => Array.from({length: 9}, () => false));
+      }
+    }
+  }
+
+  // Dino AI visual
+  if (isAutopilotUnlocked('dino') && getAutopilotState('dino').enabled) {
+    dinoVis.groundOff = (dinoVis.groundOff + 80 * dt) % 10;
+
+    // Gravity
+    dinoVis.vel += 500 * dt;
+    dinoVis.y += dinoVis.vel * dt;
+    if (dinoVis.y >= 0) { dinoVis.y = 0; dinoVis.vel = 0; }
+
+    // Move obstacles
+    for (const obs of dinoVis.obstacles) {
+      obs.x -= 80 * dt;
+      if (obs.x < -10) {
+        obs.x = SIZE + 20 + Math.random() * 40;
+        obs.h = 12 + Math.random() * 12;
+      }
+    }
+
+    // AI: jump when obstacle is close
+    for (const obs of dinoVis.obstacles) {
+      if (obs.x > 10 && obs.x < 35 && dinoVis.y >= 0) {
+        dinoVis.vel = -200;
+      }
+    }
+  }
+
+  // Crossy AI visual
+  if (isAutopilotUnlocked('crossy') && getAutopilotState('crossy').enabled) {
+    // Move cars
+    for (const car of crossyVis.cars) {
+      car.x += car.speed * dt;
+      if (car.x > SIZE + 10) car.x = -20;
+      if (car.x < -20) car.x = SIZE + 10;
+    }
+
+    // AI: hop forward periodically
+    crossyVis.timer += dt;
+    if (crossyVis.timer > 0.4) {
+      crossyVis.timer = 0;
+      // Check if safe to move forward
+      const nextRow = crossyVis.row + 1;
+      let safe = true;
+      for (const car of crossyVis.cars) {
+        if (car.row === nextRow) {
+          const px = crossyVis.col * 10;
+          if (Math.abs(car.x - px) < 18) safe = false;
+        }
+      }
+      if (safe && Math.random() < 0.7) {
+        crossyVis.row++;
+        if (crossyVis.row > 8) { crossyVis.row = 0; crossyVis.col = 6; }
+      } else if (Math.random() < 0.3) {
+        // Dodge sideways
+        crossyVis.col += Math.random() < 0.5 ? 1 : -1;
+        crossyVis.col = Math.max(1, Math.min(11, crossyVis.col));
+      }
+    }
+  }
+
+  // Invaders AI visual
+  if (isAutopilotUnlocked('invaders') && getAutopilotState('invaders').enabled) {
+    invadersVis.timer += dt;
+
+    // Move aliens
+    let hitEdge = false;
+    for (const a of invadersVis.aliens) {
+      if (!a.alive) continue;
+      a.x += invadersVis.dir * 15 * dt;
+      if (a.x < 5 || a.x > SIZE - 15) hitEdge = true;
+    }
+    if (hitEdge) {
+      invadersVis.dir *= -1;
+      for (const a of invadersVis.aliens) { if (a.alive) a.y += 3; }
+    }
+
+    // AI: move toward nearest alive alien
+    const alive = invadersVis.aliens.filter(a => a.alive);
+    if (alive.length > 0) {
+      let nearest = alive[0];
+      for (const a of alive) {
+        if (Math.abs(a.x - invadersVis.playerX) < Math.abs(nearest.x - invadersVis.playerX)) {
+          nearest = a;
+        }
+      }
+      if (invadersVis.playerX < nearest.x - 2) invadersVis.playerX += 60 * dt;
+      else if (invadersVis.playerX > nearest.x + 2) invadersVis.playerX -= 60 * dt;
+    }
+
+    // Shoot periodically
+    if (invadersVis.timer > 0.4) {
+      invadersVis.timer = 0;
+      invadersVis.bullets.push({ x: invadersVis.playerX, y: SIZE - 15 });
+    }
+
+    // Move bullets
+    for (const b of invadersVis.bullets) b.y -= 120 * dt;
+    invadersVis.bullets = invadersVis.bullets.filter(b => b.y > -5);
+
+    // Hit detection
+    for (const b of invadersVis.bullets) {
+      for (const a of invadersVis.aliens) {
+        if (!a.alive) continue;
+        if (Math.abs(b.x - a.x - 5) < 8 && Math.abs(b.y - a.y - 5) < 8) {
+          a.alive = false;
+          b.y = -100;
+          break;
+        }
+      }
+    }
+
+    // Reset wave when all dead
+    if (alive.length <= 1) {
+      invadersVis.aliens = [];
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 6; c++) {
+          invadersVis.aliens.push({ x: 15 + c * 16, y: 8 + r * 14, alive: true });
+        }
       }
     }
   }
@@ -173,6 +324,9 @@ function renderVisuals(): void {
       case 'snake': renderSnakeVisual(ctx); break;
       case 'flappy': renderFlappyVisual(ctx); break;
       case 'minesweeper': renderMineVisual(ctx); break;
+      case 'dino': renderDinoVisual(ctx); break;
+      case 'crossy': renderCrossyVisual(ctx); break;
+      case 'invaders': renderInvadersVisual(ctx); break;
     }
 
     // Progress bar at bottom
@@ -273,6 +427,128 @@ function renderMineVisual(ctx: CanvasRenderingContext2D): void {
       }
     }
   }
+}
+
+function renderDinoVisual(ctx: CanvasRenderingContext2D): void {
+  const groundY = SIZE - 20;
+
+  // Ground
+  ctx.strokeStyle = '#3a3a5e';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, groundY + 2);
+  ctx.lineTo(SIZE, groundY + 2);
+  ctx.stroke();
+
+  // Ground texture
+  ctx.fillStyle = '#2a2a44';
+  for (let x = -dinoVis.groundOff; x < SIZE; x += 10) {
+    ctx.fillRect(x, groundY + 4, 4, 1);
+  }
+
+  // Obstacles (cacti)
+  ctx.fillStyle = '#22c55e';
+  for (const obs of dinoVis.obstacles) {
+    ctx.beginPath();
+    ctx.roundRect(obs.x, groundY - obs.h, 6, obs.h, 2);
+    ctx.fill();
+  }
+
+  // Dino
+  ctx.fillStyle = '#6b7280';
+  const dinoTop = groundY - 14 + dinoVis.y;
+  ctx.beginPath();
+  ctx.roundRect(15, dinoTop, 10, 14, 3);
+  ctx.fill();
+  // Head
+  ctx.beginPath();
+  ctx.roundRect(19, dinoTop - 6, 8, 8, 2);
+  ctx.fill();
+  // Eye
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(24, dinoTop - 3, 1.5, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function renderCrossyVisual(ctx: CanvasRenderingContext2D): void {
+  // Draw lanes
+  for (let r = 0; r < 10; r++) {
+    const y = SIZE - (r + 1) * 12;
+    const isRoad = r === 2 || r === 4 || r === 6;
+    ctx.fillStyle = isRoad ? '#1a1a2e' : '#1a3a1a';
+    ctx.fillRect(0, y, SIZE, 12);
+    if (isRoad) {
+      ctx.strokeStyle = '#ffffff10';
+      ctx.lineWidth = 0.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(0, y + 6);
+      ctx.lineTo(SIZE, y + 6);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  // Cars
+  for (const car of crossyVis.cars) {
+    const y = SIZE - (car.row + 1) * 12;
+    ctx.fillStyle = car.speed > 0 ? '#ef4444' : '#3b82f6';
+    ctx.beginPath();
+    ctx.roundRect(car.x, y + 2, 16, 8, 2);
+    ctx.fill();
+  }
+
+  // Chicken
+  const py = SIZE - (crossyVis.row + 1) * 12;
+  const px = crossyVis.col * 10;
+  ctx.fillStyle = '#fbbf24';
+  ctx.beginPath();
+  ctx.roundRect(px, py + 1, 8, 10, 3);
+  ctx.fill();
+  ctx.fillStyle = '#000';
+  ctx.beginPath();
+  ctx.arc(px + 3, py + 4, 1, 0, Math.PI * 2);
+  ctx.arc(px + 6, py + 4, 1, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function renderInvadersVisual(ctx: CanvasRenderingContext2D): void {
+  // Stars
+  ctx.fillStyle = '#ffffff10';
+  for (let i = 0; i < 15; i++) {
+    ctx.fillRect((i * 31 + 7) % SIZE, (i * 19 + 3) % (SIZE - 20), 1, 1);
+  }
+
+  // Aliens
+  const colors = ['#ef4444', '#a855f7', '#22c55e'];
+  for (const a of invadersVis.aliens) {
+    if (!a.alive) continue;
+    const row = Math.floor((a.y - 8) / 14);
+    ctx.fillStyle = colors[Math.min(row, 2)];
+    ctx.beginPath();
+    ctx.roundRect(a.x, a.y, 10, 8, 2);
+    ctx.fill();
+    // Eyes
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(a.x + 2, a.y + 2, 2, 2);
+    ctx.fillRect(a.x + 6, a.y + 2, 2, 2);
+  }
+
+  // Player bullets
+  ctx.fillStyle = '#fbbf24';
+  for (const b of invadersVis.bullets) {
+    ctx.fillRect(b.x - 1, b.y, 2, 5);
+  }
+
+  // Player ship
+  ctx.fillStyle = '#3b82f6';
+  ctx.beginPath();
+  ctx.moveTo(invadersVis.playerX, SIZE - 14);
+  ctx.lineTo(invadersVis.playerX + 8, SIZE - 6);
+  ctx.lineTo(invadersVis.playerX - 8, SIZE - 6);
+  ctx.closePath();
+  ctx.fill();
 }
 
 export function renderAutopilotCards(container: HTMLElement): void {

@@ -26,18 +26,25 @@
     "autopilot_flappy": { "level": 1, "unlocked": true },
     "ap_skill_snake": { "level": 5, "unlocked": true },
     "ap_skill_flappy": { "level": 3, "unlocked": true },
-    "ap_speed_snake": { "level": 2, "unlocked": true }
+    "ap_speed_snake": { "level": 2, "unlocked": true },
+    "unlock_dino": { "level": 1, "unlocked": true },
+    "unlock_crossy": { "level": 1, "unlocked": true },
+    "dino_mastery": { "level": 2, "unlocked": true },
+    "crossy_mastery": { "level": 1, "unlocked": true },
+    "autopilot_dino": { "level": 1, "unlocked": true },
+    "ap_skill_dino": { "level": 2, "unlocked": true }
   },
   "autopilots": {
     "snake": { "enabled": true, "skillLevel": 6, "speedLevel": 3 },
-    "flappy": { "enabled": true, "skillLevel": 4, "speedLevel": 1 }
+    "flappy": { "enabled": true, "skillLevel": 4, "speedLevel": 1 },
+    "dino": { "enabled": true, "skillLevel": 3, "speedLevel": 1 }
   },
   "minigames": {
     "snake": { "highScore": 35, "timesPlayed": 85, "totalEarned": 28000, "unlocked": true },
     "flappy": { "highScore": 22, "timesPlayed": 60, "totalEarned": 19500, "unlocked": true },
     "minesweeper": { "highScore": 71, "timesPlayed": 30, "totalEarned": 12000, "unlocked": true },
-    "dino": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false },
-    "crossy": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false },
+    "dino": { "highScore": 120, "timesPlayed": 20, "totalEarned": 5000, "unlocked": true },
+    "crossy": { "highScore": 18, "timesPlayed": 8, "totalEarned": 1800, "unlocked": true },
     "invaders": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false }
   },
   "prestige": {

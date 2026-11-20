@@ -13,9 +13,9 @@
     "snake": { "highScore": 42, "timesPlayed": 250, "totalEarned": 95000, "unlocked": false },
     "flappy": { "highScore": 28, "timesPlayed": 180, "totalEarned": 72000, "unlocked": false },
     "minesweeper": { "highScore": 81, "timesPlayed": 100, "totalEarned": 55000, "unlocked": false },
-    "dino": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false },
-    "crossy": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false },
-    "invaders": { "highScore": 0, "timesPlayed": 0, "totalEarned": 0, "unlocked": false }
+    "dino": { "highScore": 280, "timesPlayed": 65, "totalEarned": 18000, "unlocked": false },
+    "crossy": { "highScore": 35, "timesPlayed": 45, "totalEarned": 12000, "unlocked": false },
+    "invaders": { "highScore": 180, "timesPlayed": 30, "totalEarned": 9500, "unlocked": false }
   },
   "prestige": {
     "count": 1,
